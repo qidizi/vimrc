@@ -2,7 +2,7 @@
 " vim  插件管理 Vundle 配置内容
 set nocompatible              " be iMproved, required
 filetype off                  " required
-
+kkkk
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
