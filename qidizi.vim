@@ -37,7 +37,8 @@ set softtabstop=4
 set shiftwidth=4
 " 自动缩进
 set autoindent 
-
+" 调用这个键与平时用法相同
+set backspace=indent,eol,start
 " =============================
 " 其它
 
@@ -113,9 +114,9 @@ call plug#begin('/etc/vimrc.d/plugs')
     Plug 'maksimr/vim-jsbeautify'
     " php的自动完成插件
     Plug 'shawncplus/phpcomplete.vim'
-    " 支持php等多语言的调试插件
+    " 支持php等多语言的调试插件; 用法  :help Vdebug
     Plug 'joonty/vdebug'
-    " 标签
+    " 标签 用法 :help taglist
     Plug 'vim-scripts/taglist.vim'
 
 
