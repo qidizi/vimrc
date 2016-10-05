@@ -2,9 +2,6 @@
 set nocompatible
 " 检测文件类型并加载相应的处理如高亮;根据文件类型的插件加载
 filetype indent plugin on
-
-" 格式化js快捷键
-"nnoremap <silent> <leader>fmjs :call g:Jsbeautify()<cr>
 " =============================
 " 显示相关
 " 语法高亮
@@ -63,7 +60,61 @@ set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
 " 加载插件管理脚本plug.vim
 " 调用tmp/plug.vim;注意call语法不支持/,它总是从runtimepath来查找,如果有子目录,使用#号来标示
 call plug#begin('/etc/vimrc.d/plugs')
+"   " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+"   Plug 'junegunn/vim-easy-align'
+"
+"   " Any valid git URL is allowed
+"   Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+"
+"   " Group dependencies, vim-snippets depends on ultisnips
+"   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+"
+"   " On-demand loading
+"   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+"   Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+"
+"   " Using a non-master branch
+"   Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+"
+"   " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+"   Plug 'fatih/vim-go', { 'tag': '*' }
+"
+"   " Plugin options
+"   Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+"
+"   " Plugin outside ~/.vim/plugged with post-update hook
+"   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"
+"   " Unmanaged plugin (manually installed and updated)
+"   Plug '~/my-prototype-plugin'
+"
+"   " Add plugins to &runtimepath
+"   call plug#end()
+"
+" Then reload .vimrc and :PlugInstall to install plugins.
+"
+" Plug options:
+"
+"| Option                  | Description                                      |
+"| ----------------------- | ------------------------------------------------ |
+"| `branch`/`tag`/`commit` | Branch/tag/commit of the repository to use       |
+"| `rtp`                   | Subdirectory that contains Vim plugin            |
+"| `dir`                   | Custom directory for the plugin                  |
+"| `as`                    | Use different name for the plugin                |
+"| `do`                    | Post-update hook (string or funcref)             |
+"| `on`                    | On-demand loading: Commands or `<Plug>`-mappings |
+"| `for`                   | On-demand loading: File types                    |
+"| `frozen`                | Do not update unless explicitly specified        |
+"
+" More information: https://github.com/junegunn/vim-plug
+"
+"
+" 在这里配置你需要的插件,配置例子见上面,或是直接打开插件编写作者的github页面查看;然后使用:source /etc/vimrc指令重新加载vimrc;或是关闭再打开;再使用安装指令:PlugInstall
     Plug 'maksimr/vim-jsbeautify'
+    " 格式化js快捷键;可以通过:help
+    " <leader>查看前置键,一般是\;所以下面命令是在普通模式下按\fmjs来格式
+    noremap <silent> <leader>fmjs :call JsBeautify()<cr>
+  
 call plug#end()
 " 插件管理脚本结束
 
