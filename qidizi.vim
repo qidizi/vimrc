@@ -109,12 +109,27 @@ call plug#begin('/etc/vimrc.d/plugs')
 " More information: https://github.com/junegunn/vim-plug
 "
 "
-" 在这里配置你需要的插件,配置例子见上面,或是直接打开插件编写作者的github页面查看;然后使用:source /etc/vimrc指令重新加载vimrc;或是关闭再打开;再使用安装指令:PlugInstall
+" 在这里配置你需要的插件,配置例子见上面,或是直接打开插件编写作者的github页面查看;然后使用:so %指令重新加载vimrc;或是关闭再打开;再使用安装指令:PlugInstall
     Plug 'maksimr/vim-jsbeautify'
-    " 格式化js快捷键;可以通过:help
-    " <leader>查看前置键,一般是\;所以下面命令是在普通模式下按\fmjs来格式
-    noremap <silent> <leader>fmjs :call JsBeautify()<cr>
-  
+    " php的自动完成插件
+    Plug 'shawncplus/phpcomplete.vim'
+    " 支持php等多语言的调试插件
+    Plug 'joonty/vdebug'
+    " 标签
+    Plug 'vim-scripts/taglist.vim'
+
+
+
+    " 下面都提到<leader>,它是前置键,可以通过:help <leader>查看您的前置键,一般是\;所以下面命令<leader>abc是在普通模式下按\abc来调用后面的funciton
+    " 所有的文件都是根据类型来使用\btf来格式化
+    " 美化javascript文件
+    autocmd FileType javascript noremap <buffer>  <leader>btf :call JsBeautify()<cr>
+    " 格式化 json
+     autocmd FileType json noremap <buffer> <leader>btf :call JsonBeautify()<cr>
+     " 格式化 html
+     autocmd FileType html noremap <buffer> <leader>btf :call HtmlBeautify()<cr>
+    " 格式化 css or scss
+     autocmd FileType css noremap <buffer> <leader>btf :call CSSBeautify()<cr>
 call plug#end()
 " 插件管理脚本结束
 
