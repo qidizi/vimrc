@@ -7,3 +7,7 @@
 1. 使用git把github中文件克隆下来: git clone git@github.com:qidizi/vimrc.git /etc/vimrc.d/
 1. 执行bash install.sh
 1. 开始使用vim
+
+
+插件管理是通过plug来管理的,具体可以看qidizi.vim中的说明;
+或是访问plug项目描述 https://github.com/junegunn/vim-plug
