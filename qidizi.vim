@@ -117,8 +117,55 @@ call plug#begin('/etc/vimrc.d/plugs')
     " 支持php等多语言的调试插件; 用法  :help Vdebug
     Plug 'joonty/vdebug'
     " 标签 用法 :help taglist
+    " 启动vim时出现这个错误提示时: Taglist: Exuberant ctags (http://ctags.sf.net) not found in PATH. Plugin is not loaded.安装即可,如cetnos安装指令:yum install ctags-etags
     Plug 'vim-scripts/taglist.vim'
+    " vim目录树
+    Plug 'scrooloose/nerdtree'
+    Plug 'jistr/vim-nerdtree-tabs'
+    " 配置目录树开关变量
+    " 打开时开启
+    let g:nerdtree_tabs_open_on_console_startup = 1
 
+    " 加入html5支持
+    Plug 'othree/html5.vim' 
+
+    " js语法高亮
+    Plug 'pangloss/vim-javascript'
+
+    " 界面
+    Plug 'vim-airline/vim-airline'
+
+    " 自动完成
+    Plug 'Valloric/YouCompleteMe'
+    " 使用这个插件需要满足某些条件
+    " 具体参考  http://vimawesome.com/plugin/youcompleteme
+    " * 确认vim版本7.4.143+;查看方式,在vim命令中查看       :version
+    " * 确认支持pyton与3;查看方式             :echo has('python') || has('python3')输出1
+    " 如果需要c家族的自动完成还需要系统中安装动态库libclang;如centos执行
+    " yum install -y clang
+    " 需要编辑,要安装cmake;centos执行      yum install -y cmake
+    " 先使用    :PlugInstall
+    " plug没有完整的下载第三方插件代码,所以需要手工下载cd到/etc/vimrc.d/plugs/YouCompleteMe;执行
+    " git submodule update --init --recursive
+    " 才会下载完
+    " 安装ycm,再cd到/etc/vimrc.d/plugs/YouCompleteMe下面
+    " 创建一个编译目录 mkdir /etc/vimrc.d/tmp   并cd进入
+    " 根据系统生成编译配置文件,在centos下是:         
+    " cmake -G 'Unix Makefiles'  /etc/vimrc.d/plugs/YouCompleteMe/third_party/ycmd/cpp
+    " 开始编译
+    " cmake --build . --target ycm_core --config Release
+
+    " 加入通用语法检查插件
+    Plug 'scrooloose/syntastic'
+    " 配置语法检查
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
 
 
     " 下面都提到<leader>,它是前置键,可以通过:help <leader>查看您的前置键,一般是\;所以下面命令<leader>abc是在普通模式下按\abc来调用后面的funciton

@@ -39,9 +39,9 @@ echo "当前目录:$(pwd)";
 systemVimrcPath="/etc/vimrc";
 
 echo "确保您已经手工备份了vim系统级的配置文件${systemVimrcPath},下面将开始使用$(pwd)/vimrc替换${systemVimrcPath},确认继续请输入yes回车,其它输入终止:";
-read yes;
+read y;
 
-if [[ "${yes}" -ne "yes" ]];then
+if [[ "${y}" -ne "yes" ]];then
 	echo "您选择终止执行";
 	exit 0;
 fi
