@@ -11,3 +11,4 @@
 
 插件管理是通过plug来管理的,具体可以看qidizi.vim中的说明;
 或是访问plug项目描述 https://github.com/junegunn/vim-plug
+
