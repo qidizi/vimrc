@@ -1,5 +1,8 @@
 #!/bin/bash
-autoloadPath="/etc/vimrc.d/autoload";
+
+systemVimrcPath="/etc/vimrc";
+shRoot="/home/qidizi.d/vimrc.d/";
+autoloadPath="${shRoot}autoload";
 
 if [[ ! -d "${autoloadPath}" ]];then
 	echo "自动加载目录不存在,创建:${autoloadPath}";
@@ -36,7 +39,6 @@ fi
 
 cd ../;
 echo "当前目录:$(pwd)";
-systemVimrcPath="/etc/vimrc";
 
 echo "确保您已经手工备份了vim系统级的配置文件${systemVimrcPath},下面将开始使用$(pwd)/vimrc替换${systemVimrcPath},确认继续请输入yes回车,其它输入终止:";
 read y;
