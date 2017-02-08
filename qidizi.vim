@@ -60,7 +60,7 @@ set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
 
 " 加载插件管理脚本plug.vim
 " 调用tmp/plug.vim;注意call语法不支持/,它总是从runtimepath来查找,如果有子目录,使用#号来标示
-call plug#begin('/etc/vimrc.d/plugs')
+call plug#begin('/qidizi/vimrc.d/plugs')
 "   " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 "   Plug 'junegunn/vim-easy-align'
 "
@@ -119,12 +119,21 @@ call plug#begin('/etc/vimrc.d/plugs')
     " 标签 用法 :help taglist
     " 启动vim时出现这个错误提示时: Taglist: Exuberant ctags (http://ctags.sf.net) not found in PATH. Plugin is not loaded.安装即可,如cetnos安装指令:yum install ctags-etags
     Plug 'vim-scripts/taglist.vim'
+    " 只显示当前文件的tag
+    let g:Tlist_Show_One_File=0
+    " 按字母顺序排列tag而不是在代码中的出现的顺序
+    let g:Tlist_Sort_Type="name"
+    " 出现在右侧
+    let g:Tlist_Use_Right_Window=1
+    " 打开焦点移到在tag上
+    let g:Tlist_GainFocus_On_ToggleOpen=0
+
     " vim目录树
     Plug 'scrooloose/nerdtree'
     Plug 'jistr/vim-nerdtree-tabs'
     " 配置目录树开关变量
     " 打开时开启
-    let g:nerdtree_tabs_open_on_console_startup = 1
+    let g:nerdtree_tabs_open_on_console_startup =0 
 
     " 加入html5支持
     Plug 'othree/html5.vim' 
@@ -154,6 +163,8 @@ call plug#begin('/etc/vimrc.d/plugs')
     " cmake -G 'Unix Makefiles'  /etc/vimrc.d/plugs/YouCompleteMe/third_party/ycmd/cpp
     " 开始编译
     " cmake --build . --target ycm_core --config Release
+    " 
+    " 在fedora安装直接看http://vimawesome.com/plugin/youcompleteme中的教程即可
 
     " 加入通用语法检查插件
     Plug 'scrooloose/syntastic'

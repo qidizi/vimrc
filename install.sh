@@ -1,7 +1,7 @@
 #!/bin/bash
 
 systemVimrcPath="/etc/vimrc";
-shRoot="/home/qidizi.d/vimrc.d/";
+shRoot="/qidizi/vimrc.d/";
 autoloadPath="${shRoot}autoload";
 
 if [[ ! -d "${autoloadPath}" ]];then
