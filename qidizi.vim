@@ -133,7 +133,7 @@ call plug#begin('/qidizi/vimrc.d/plugs')
     Plug 'jistr/vim-nerdtree-tabs'
     " 配置目录树开关变量
     " 打开时开启
-    let g:nerdtree_tabs_open_on_console_startup =0 
+    let g:nerdtree_tabs_open_on_console_startup =1 
 
     " 加入html5支持
     Plug 'othree/html5.vim' 
@@ -167,7 +167,7 @@ call plug#begin('/qidizi/vimrc.d/plugs')
     " 在fedora安装直接看http://vimawesome.com/plugin/youcompleteme中的教程即可
 
     " 加入通用语法检查插件
-    Plug 'scrooloose/syntastic'
+    Plug 'vim-syntastic/syntastic'
     " 配置语法检查
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
@@ -176,19 +176,22 @@ call plug#begin('/qidizi/vimrc.d/plugs')
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_auto_loc_list = 1
     let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 0
-
+    let g:syntastic_check_on_wq = 1
+    let g:syntastic_aggregate_errors = 1
 
     " 下面都提到<leader>,它是前置键,可以通过:help <leader>查看您的前置键,一般是\;所以下面命令<leader>abc是在普通模式下按\abc来调用后面的funciton
     " 所有的文件都是根据类型来使用\btf来格式化
     " 美化javascript文件
-    autocmd FileType javascript noremap <buffer>  <leader>btf :call JsBeautify()<cr>
+    autocmd FileType javascript noremap <buffer>  <C-b> :call JsBeautify()<cr>
     " 格式化 json
-     autocmd FileType json noremap <buffer> <leader>btf :call JsonBeautify()<cr>
+     autocmd FileType json noremap <buffer> <C-b> :call JsonBeautify()<cr>
      " 格式化 html
-     autocmd FileType html noremap <buffer> <leader>btf :call HtmlBeautify()<cr>
+     autocmd FileType html noremap <buffer> <C-b> :call HtmlBeautify()<cr>
     " 格式化 css or scss
-     autocmd FileType css noremap <buffer> <leader>btf :call CSSBeautify()<cr>
+     autocmd FileType css noremap <buffer> <C-b> :call CSSBeautify()<cr>
 call plug#end()
 " 插件管理脚本结束
 
+" map
+" php类型文件，使用php的插件格式化，注意它只会格式化php代码部分，并非所有混合html，js，css等
+autocmd FileType php noremap <buffer> <C-b> :% ! php_beautifier <CR>
