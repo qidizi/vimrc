@@ -5,7 +5,7 @@
 
 1. 切换成root
 1. 使用git把github中文件克隆到任意目录: git clone git@github.com:qidizi/vimrc.git ./
-1. 执行bash install.sh,根据提示完成配置
+1. centos直接备份并删除/etc/vimrc,ln 目录/qidizi.vim /etc/vimrc; ubuntu ln 目录/qidizi.vim /etc/vim/vimrc.local;
 1. 开始使用vim
 
 

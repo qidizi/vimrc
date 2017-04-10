@@ -1,3 +1,6 @@
+" 配置vim的runtimepath为下面指定的目录
+set rtp+=./
+
 " 不兼容vi模式,使用vim自己的模式,功能更强大
 set nocompatible
 " 检测文件类型并加载相应的处理如高亮;根据文件类型的插件加载
@@ -60,7 +63,7 @@ set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
 
 " 加载插件管理脚本plug.vim
 " 调用tmp/plug.vim;注意call语法不支持/,它总是从runtimepath来查找,如果有子目录,使用#号来标示
-call plug#begin('/qidizi/vimrc.d/plugs')
+call plug#begin('./plugs')
 "   " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 "   Plug 'junegunn/vim-easy-align'
 "
@@ -117,7 +120,7 @@ call plug#begin('/qidizi/vimrc.d/plugs')
     " 支持php等多语言的调试插件; 用法  :help Vdebug
     Plug 'joonty/vdebug'
     " 标签 用法 :help taglist
-    " 启动vim时出现这个错误提示时: Taglist: Exuberant ctags (http://ctags.sf.net) not found in PATH. Plugin is not loaded.安装即可,如cetnos安装指令:yum install ctags-etags
+    " 启动vim时出现这个错误提示时: Taglist: Exuberant ctags (http://ctags.sf.net) not found in PATH. Plugin is not loaded.安装即可,如cetnos安装指令:yum install ctags-etags; ubuntu 安装 exuberant-ctags ;ubuntu python安装在/usr/bin/python,需要链接:ln -rs /usr/bin/python /bin/python;
     Plug 'vim-scripts/taglist.vim'
     " 只显示当前文件的tag
     let g:Tlist_Show_One_File=0
