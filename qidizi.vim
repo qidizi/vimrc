@@ -1,6 +1,3 @@
-" 配置vim的runtimepath为下面指定的目录
-set rtp+=./
-
 " 不兼容vi模式,使用vim自己的模式,功能更强大
 set nocompatible
 " 检测文件类型并加载相应的处理如高亮;根据文件类型的插件加载
@@ -61,9 +58,53 @@ set encoding=utf-8
 "设置支持打开的文件的编码
 set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1  
 
-" 加载插件管理脚本plug.vim
+
+
+" 在/etc/vimrc文件,或是某些系统/etc/vim/vimrc中使用source引入本vim配置文件,比如 source 路径/vimrc.d/qidizi.vim
+" 通用source指令加载的vim script,可以通过下面的命令得到这个脚本的路径;
+let s:qidiziVimDir=expand('<sfile>:p:h')."/"
+" 如果需要可以把本目录加入运行时查找目录;目前不清楚set怎么使用变量来拼接
+" let &rtp=&rtp.",".s:qidiziVimDir
+
+" 如果没有插件管理脚本,本脚本到此结束;插件管理脚本网址:https://github.com/junegunn/vim-plug
+let plugsDir=s:qidiziVimDir . "plugs/"
+
+if !isdirectory(plugsDir)
+    " 如果插件缓存目录不存在,创建
+    " 使用vimScript创建目录mkdir()
+    if !mkdir(plugsDir)
+        echo "无法创建用来安装插件的缓存目录:" .plugsDir
+        finish
+    endif
+endif
+
+let plugVim=plugsDir .'plug.vim'
+
+if !filewritable(plugVim)
+    if !executable('curl')
+        " 如果没有系统的下载命令,需要提示用户自己手工下载
+        echo "系统不支持curl命令,请手工下载插件管理脚本:https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 到 ".plugVim
+        finish
+    endif
+
+    echo "正在下载插件管理脚本,请稍候..."
+    silent let result=system('curl -v -fLo ' .plugVim. ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+ 
+    if v:shell_error 
+        " 成功这个变量是0 
+        echo "自动下载失败,请重启vim重试;或手工下载插件管理脚本:https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 到 ".plugVim
+        finish
+    endif
+
+    echo "安装插件管理脚本成功!"
+    echo "请使用:Plug*开头的命令来安装,使用插件管理"
+endif
+    
+" 加载插件管理脚本plug.vim;这是source等关键字不支持变量的用法;
+execute 'source ' .fnameescape(plugVim)
+
 " 调用tmp/plug.vim;注意call语法不支持/,它总是从runtimepath来查找,如果有子目录,使用#号来标示
-call plug#begin('./plugs')
+call plug#begin(plugsDir)
 "   " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 "   Plug 'junegunn/vim-easy-align'
 "
@@ -198,3 +239,5 @@ call plug#end()
 " map
 " php类型文件，使用php的插件格式化，注意它只会格式化php代码部分，并非所有混合html，js，css等
 autocmd FileType php noremap <buffer> <C-b> :% ! php_beautifier <CR>
+
+finish
