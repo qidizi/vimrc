@@ -103,65 +103,22 @@ endif
 " 加载插件管理脚本plug.vim;这是source等关键字不支持变量的用法;
 execute 'source ' .fnameescape(plugVim)
 
-" 调用tmp/plug.vim;注意call语法不支持/,它总是从runtimepath来查找,如果有子目录,使用#号来标示
+" 注意call语法不支持/,它总是从runtimepath来查找,如果有子目录,使用#号来标示
 call plug#begin(plugsDir)
-"   " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-"   Plug 'junegunn/vim-easy-align'
-"
-"   " Any valid git URL is allowed
-"   Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-"
-"   " Group dependencies, vim-snippets depends on ultisnips
-"   Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-"
-"   " On-demand loading
-"   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-"   Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-"
-"   " Using a non-master branch
-"   Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-"
-"   " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-"   Plug 'fatih/vim-go', { 'tag': '*' }
-"
-"   " Plugin options
-"   Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
-"
-"   " Plugin outside ~/.vim/plugged with post-update hook
-"   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-"
-"   " Unmanaged plugin (manually installed and updated)
-"   Plug '~/my-prototype-plugin'
-"
-"   " Add plugins to &runtimepath
-"   call plug#end()
-"
-" Then reload .vimrc and :PlugInstall to install plugins.
-"
-" Plug options:
-"
-"| Option                  | Description                                      |
-"| ----------------------- | ------------------------------------------------ |
-"| `branch`/`tag`/`commit` | Branch/tag/commit of the repository to use       |
-"| `rtp`                   | Subdirectory that contains Vim plugin            |
-"| `dir`                   | Custom directory for the plugin                  |
-"| `as`                    | Use different name for the plugin                |
-"| `do`                    | Post-update hook (string or funcref)             |
-"| `on`                    | On-demand loading: Commands or `<Plug>`-mappings |
-"| `for`                   | On-demand loading: File types                    |
-"| `frozen`                | Do not update unless explicitly specified        |
-"
-" More information: https://github.com/junegunn/vim-plug
-"
-"
-" 在这里配置你需要的插件,配置例子见上面,或是直接打开插件编写作者的github页面查看;然后使用:so %指令重新加载vimrc;或是关闭再打开;再使用安装指令:PlugInstall
+" 一般的加载方式就是 Plug 'github中用户/项目名称'
+" 虽然在这里加载了,但是还是需要手工安装,就是进入vim,执行指令:PlugInstall;Plug*属于相关的指令,可以使用tab键补全查看;
+" 具体的插件加载配置方式见: https://github.com/junegunn/vim-plug
+    " js美化
     Plug 'maksimr/vim-jsbeautify'
     " php的自动完成插件
     Plug 'shawncplus/phpcomplete.vim'
     " 支持php等多语言的调试插件; 用法  :help Vdebug
     Plug 'joonty/vdebug'
     " 标签 用法 :help taglist
-    " 启动vim时出现这个错误提示时: Taglist: Exuberant ctags (http://ctags.sf.net) not found in PATH. Plugin is not loaded.安装即可,如cetnos安装指令:yum install ctags-etags; ubuntu 安装 exuberant-ctags ;ubuntu python安装在/usr/bin/python,需要链接:ln -rs /usr/bin/python /bin/python;
+    " 启动vim时出现这个错误提示时: Taglist: Exuberant ctags (http://ctags.sf.net) not found in PATH. Plugin is not loaded.
+    " 安装ctags即可,如cetnos安装指令:yum install ctags-etags; 
+    " ubuntu 安装 exuberant-ctags ;
+    " ubuntu python安装在/usr/bin/python,需要链接:ln -rs /usr/bin/python /bin/python;
     Plug 'vim-scripts/taglist.vim'
     " 只显示当前文件的tag
     let g:Tlist_Show_One_File=0
@@ -177,7 +134,12 @@ call plug#begin(plugsDir)
     Plug 'jistr/vim-nerdtree-tabs'
     " 配置目录树开关变量
     " 打开时开启
-    let g:nerdtree_tabs_open_on_console_startup =1 
+    let g:nerdtree_tabs_open_on_console_startup =0 
+    " 显示隐藏文件
+    let g:NERDTreeShowHidden = 1
+    " 初始化的窗口大小;这个值并不是像素,也不是百分比,而是一个感官值;请自己感觉后调整;
+    " :h resize 查看说明
+    let g:NERDTreeWinSize = 20
 
     " 加入html5支持
     Plug 'othree/html5.vim' 
@@ -188,30 +150,14 @@ call plug#begin(plugsDir)
     " 界面
     Plug 'vim-airline/vim-airline'
 
-    " 自动完成
+    " 自动补全;
     Plug 'Valloric/YouCompleteMe'
     " 使用这个插件需要满足某些条件
+    " :PlugInstall完成后,cd到这个插件的目录下,运行install.py,根据提示完成安装,即可使用
     " 具体参考  http://vimawesome.com/plugin/youcompleteme
-    " * 确认vim版本7.4.143+;查看方式,在vim命令中查看       :version
-    " * 确认支持pyton与3;查看方式             :echo has('python') || has('python3')输出1
-    " 如果需要c家族的自动完成还需要系统中安装动态库libclang;如centos执行
-    " yum install -y clang
-    " 需要编辑,要安装cmake;centos执行      yum install -y cmake
-    " 先使用    :PlugInstall
-    " plug没有完整的下载第三方插件代码,所以需要手工下载cd到/etc/vimrc.d/plugs/YouCompleteMe;执行
-    " git submodule update --init --recursive
-    " 才会下载完
-    " 安装ycm,再cd到/etc/vimrc.d/plugs/YouCompleteMe下面
-    " 创建一个编译目录 mkdir /etc/vimrc.d/tmp   并cd进入
-    " 根据系统生成编译配置文件,在centos下是:         
-    " cmake -G 'Unix Makefiles'  /etc/vimrc.d/plugs/YouCompleteMe/third_party/ycmd/cpp
-    " 开始编译
-    " cmake --build . --target ycm_core --config Release
-    " 
-    " 在fedora安装直接看http://vimawesome.com/plugin/youcompleteme中的教程即可
 
-    " 加入通用语法检查插件
-    Plug 'vim-syntastic/syntastic'
+    " 加入通用语法检查插件;
+     Plug 'vim-syntastic/syntastic'
     " 配置语法检查
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
@@ -224,7 +170,7 @@ call plug#begin(plugsDir)
     let g:syntastic_aggregate_errors = 1
 
     " 下面都提到<leader>,它是前置键,可以通过:help <leader>查看您的前置键,一般是\;所以下面命令<leader>abc是在普通模式下按\abc来调用后面的funciton
-    " 所有的文件都是根据类型来使用\btf来格式化
+    " 所有的文件都是根据类型来格式化
     " 美化javascript文件
     autocmd FileType javascript noremap <buffer>  <C-b> :call JsBeautify()<cr>
     " 格式化 json
