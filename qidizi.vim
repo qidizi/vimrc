@@ -1,4 +1,5 @@
 " 不兼容vi模式,使用vim自己的模式,功能更强大
+" 不兼容vi模式,使用vim自己的模式,功能更强大
 set nocompatible
 " 检测文件类型并加载相应的处理如高亮;根据文件类型的插件加载
 filetype indent plugin on
@@ -63,8 +64,34 @@ set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
 " 在/etc/vimrc文件,或是某些系统/etc/vim/vimrc中使用source引入本vim配置文件,比如 source 路径/vimrc.d/qidizi.vim
 " 通用source指令加载的vim script,可以通过下面的命令得到这个脚本的路径;
 let s:qidiziVimDir=expand('<sfile>:p:h')."/"
-" 如果需要可以把本目录加入运行时查找目录;目前不清楚set怎么使用变量来拼接
+" 如果需要可以把本目录加入运行时查找目录;目前不清楚set怎么使用变量来拼接;应该可以使用execute
 " let &rtp=&rtp.",".s:qidiziVimDir
+
+
+" map
+" php类型文件，使用php的插件格式化，注意它只会格式化php代码部分，并非所有混合html，js，css等
+autocmd FileType php noremap <buffer> <C-b> :% ! php_beautifier <CR>
+
+" map
+" php类型文件，使用php的插件格式化，注意它只会格式化php代码部分，并非所有混合html，js，css等
+autocmd FileType php noremap <buffer> <C-b> :% ! php_beautifier <CR>
+
+" map ctrl+shift+l
+" 为运行/sdcard/-/shell/cli.sh;execute不支持|,但是在if语法却能使用
+" 
+function Test() 
+    " 需要root权限
+    echo system('echo "alias b=/data/-/bin/busybox;sh /sdcard/-/cli/cli.sh linux " | xclip -selection primary -i;')
+    echo system('echo "alias b=/data/-/bin/busybox;sh /sdcard/-/cli/cli.sh linux " | xclip -selection clipboard -i;')
+    :execute ':!echo -e "\n\n\n\n";clear;adb shell'
+endfunction
+noremap <F8>  :call Test() <CR> 
+" map ctrl+l 为上传当前编辑的文件到android对应目录
+noremap <F7> :echo system('adb push ' .expand("%:p") . ' /sdcard/-/cli/' .expand("%")) <CR>
+" 临时的,给外包上传文件
+noremap <C-F8> :echo system("cd /home/qidizi/Desktop/qidizi/www/tuofu-weixin.chinacloudsites.cn/ && git commit -am 'test' && git push") <CR>
+
+
 
 " 如果没有插件管理脚本,本脚本到此结束;插件管理脚本网址:https://github.com/junegunn/vim-plug
 let plugsDir=s:qidiziVimDir . "plugs/"
@@ -134,7 +161,7 @@ call plug#begin(plugsDir)
     Plug 'jistr/vim-nerdtree-tabs'
     " 配置目录树开关变量
     " 打开时开启
-    let g:nerdtree_tabs_open_on_console_startup =0 
+    let g:nerdtree_tabs_open_on_console_startup =1 
     " 显示隐藏文件
     let g:NERDTreeShowHidden = 1
     " 初始化的窗口大小;这个值并不是像素,也不是百分比,而是一个感官值;请自己感觉后调整;
@@ -181,9 +208,4 @@ call plug#begin(plugsDir)
      autocmd FileType css noremap <buffer> <C-b> :call CSSBeautify()<cr>
 call plug#end()
 " 插件管理脚本结束
-
-" map
-" php类型文件，使用php的插件格式化，注意它只会格式化php代码部分，并非所有混合html，js，css等
-autocmd FileType php noremap <buffer> <C-b> :% ! php_beautifier <CR>
-
 finish
