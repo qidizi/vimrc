@@ -116,7 +116,7 @@ if !filewritable(plugVim)
 
     echo "正在下载插件管理脚本,请稍候..."
     silent let result=system('curl -v -fLo ' .plugVim. ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
- 
+
     if v:shell_error 
         " 成功这个变量是0 
         echo "自动下载失败,请重启vim重试;或手工下载插件管理脚本:https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 到 ".plugVim
@@ -126,7 +126,7 @@ if !filewritable(plugVim)
     echo "安装插件管理脚本成功!"
     echo "请使用:Plug*开头的命令来安装,使用插件管理"
 endif
-    
+
 " 加载插件管理脚本plug.vim;这是source等关键字不支持变量的用法;
 execute 'source ' .fnameescape(plugVim)
 
@@ -135,77 +135,108 @@ call plug#begin(plugsDir)
 " 一般的加载方式就是 Plug 'github中用户/项目名称'
 " 虽然在这里加载了,但是还是需要手工安装,就是进入vim,执行指令:PlugInstall;Plug*属于相关的指令,可以使用tab键补全查看;
 " 具体的插件加载配置方式见: https://github.com/junegunn/vim-plug
-    " js美化
-    Plug 'maksimr/vim-jsbeautify'
-    " php的自动完成插件
-    Plug 'shawncplus/phpcomplete.vim'
-    " 支持php等多语言的调试插件; 用法  :help Vdebug
-    Plug 'joonty/vdebug'
-    " 标签 用法 :help taglist
-    " 启动vim时出现这个错误提示时: Taglist: Exuberant ctags (http://ctags.sf.net) not found in PATH. Plugin is not loaded.
-    " 安装ctags即可,如cetnos安装指令:yum install ctags-etags; 
-    " ubuntu 安装 exuberant-ctags ;
-    " ubuntu python安装在/usr/bin/python,需要链接:ln -rs /usr/bin/python /bin/python;
-    Plug 'vim-scripts/taglist.vim'
-    " 只显示当前文件的tag
-    let g:Tlist_Show_One_File=0
-    " 按字母顺序排列tag而不是在代码中的出现的顺序
-    let g:Tlist_Sort_Type="name"
-    " 出现在右侧
-    let g:Tlist_Use_Right_Window=1
-    " 打开焦点移到在tag上
-    let g:Tlist_GainFocus_On_ToggleOpen=0
+" js美化
+Plug 'maksimr/vim-jsbeautify'
+" php的自动完成插件
+Plug 'shawncplus/phpcomplete.vim'
+" 支持php等多语言的调试插件; 用法  :help Vdebug
+Plug 'joonty/vdebug'
+" 标签 用法 :help taglist
+" 启动vim时出现这个错误提示时: Taglist: Exuberant ctags (http://ctags.sf.net) not found in PATH. Plugin is not loaded.
+" 安装ctags即可,如cetnos安装指令:yum install ctags-etags; 
+" ubuntu 安装 exuberant-ctags ;
+" ubuntu python安装在/usr/bin/python,需要链接:ln -rs /usr/bin/python /bin/python;
+Plug 'vim-scripts/taglist.vim'
+" 只显示当前文件的tag
+let g:Tlist_Show_One_File=0
+" 按字母顺序排列tag而不是在代码中的出现的顺序
+let g:Tlist_Sort_Type="name"
+" 出现在右侧
+let g:Tlist_Use_Right_Window=1
+" 打开焦点移到在tag上
+let g:Tlist_GainFocus_On_ToggleOpen=0
 
-    " vim目录树
-    Plug 'scrooloose/nerdtree'
-    Plug 'jistr/vim-nerdtree-tabs'
-    " 配置目录树开关变量
-    " 打开时开启
-    let g:nerdtree_tabs_open_on_console_startup =1 
-    " 显示隐藏文件
-    let g:NERDTreeShowHidden = 1
-    " 初始化的窗口大小;这个值并不是像素,也不是百分比,而是一个感官值;请自己感觉后调整;
-    " :h resize 查看说明
-    let g:NERDTreeWinSize = 20
+" vim目录树
+Plug 'scrooloose/nerdtree'
+" 如果启动时没有打开任何文件，就打开左边目录树
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" 如果打开目录，就显示目录树
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+" 开关目录树的快捷键
+map <C-n> :NERDTreeToggle<CR>
+" 关闭最后只有目录树时，关闭vim
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" 后缀用不同色来显示
+" NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+    exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+    exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
 
-    " 加入html5支持
-    Plug 'othree/html5.vim' 
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 
-    " js语法高亮
-    Plug 'pangloss/vim-javascript'
+"Plug 'jistr/vim-nerdtree-tabs'
+" 配置目录树开关变量
+" 打开时开启
+"let g:nerdtree_tabs_open_on_console_startup =0 
+" 显示隐藏文件
+let g:NERDTreeShowHidden = 1
+" 初始化的窗口大小;这个值并不是像素,也不是百分比,而是一个感官值;请自己感觉后调整;
+" :h resize 查看说明
+let g:NERDTreeWinSize = 20
 
-    " 界面
-    Plug 'vim-airline/vim-airline'
+" 加入html5支持
+Plug 'othree/html5.vim' 
 
-    " 自动补全;
-    Plug 'Valloric/YouCompleteMe'
-    " 使用这个插件需要满足某些条件
-    " :PlugInstall完成后,cd到这个插件的目录下,运行install.py,根据提示完成安装,即可使用
-    " 具体参考  http://vimawesome.com/plugin/youcompleteme
+" js语法高亮
+Plug 'pangloss/vim-javascript'
 
-    " 加入通用语法检查插件;
-     Plug 'vim-syntastic/syntastic'
-    " 配置语法检查
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
+" 界面
+Plug 'vim-airline/vim-airline'
 
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 1
-    let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 1
-    let g:syntastic_aggregate_errors = 1
+" 自动补全;
+Plug 'Valloric/YouCompleteMe'
+" 使用这个插件需要满足某些条件
+" :PlugInstall完成后,cd到这个插件的目录下,运行install.py,根据提示完成安装,即可使用
+" 具体参考  http://vimawesome.com/plugin/youcompleteme
 
-    " 下面都提到<leader>,它是前置键,可以通过:help <leader>查看您的前置键,一般是\;所以下面命令<leader>abc是在普通模式下按\abc来调用后面的funciton
-    " 所有的文件都是根据类型来格式化
-    " 美化javascript文件
-    autocmd FileType javascript noremap <buffer>  <C-b> :call JsBeautify()<cr>
-    " 格式化 json
-     autocmd FileType json noremap <buffer> <C-b> :call JsonBeautify()<cr>
-     " 格式化 html
-     autocmd FileType html noremap <buffer> <C-b> :call HtmlBeautify()<cr>
-    " 格式化 css or scss
-     autocmd FileType css noremap <buffer> <C-b> :call CSSBeautify()<cr>
+" 加入通用语法检查插件;
+Plug 'vim-syntastic/syntastic'
+" 配置语法检查
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_aggregate_errors = 1
+
+" 下面都提到<leader>,它是前置键,可以通过:help <leader>查看您的前置键,一般是\;所以下面命令<leader>abc是在普通模式下按\abc来调用后面的funciton
+" 所有的文件都是根据类型来格式化
+" 美化javascript文件
+autocmd FileType javascript noremap <buffer>  <C-b> :call JsBeautify()<cr>
+" 格式化 json
+autocmd FileType json noremap <buffer> <C-b> :call JsonBeautify()<cr>
+" 格式化 html
+autocmd FileType html noremap <buffer> <C-b> :call HtmlBeautify()<cr>
+" 格式化 css or scss
+autocmd FileType css noremap <buffer> <C-b> :call CSSBeautify()<cr>
 call plug#end()
 " 插件管理脚本结束
 finish
