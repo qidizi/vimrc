@@ -94,7 +94,7 @@ noremap <C-F8> :echo system("cd /home/qidizi/Desktop/qidizi/www/tuofu-weixin.chi
 
 
 " 如果没有插件管理脚本,本脚本到此结束;插件管理脚本网址:https://github.com/junegunn/vim-plug
-let plugsDir=s:qidiziVimDir . "plugs/"
+let plugsDir=s:qidiziVimDir . ".vimPlugs/"
 
 if !isdirectory(plugsDir)
     " 如果插件缓存目录不存在,创建
