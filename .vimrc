@@ -115,11 +115,11 @@ if !filewritable(plugVim)
     endif
 
     echo "正在下载插件管理脚本,请稍候..."
-    silent let result=system('curl -v -fLo ' .plugVim. ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+    :execute ':!curl  --insecure  --verbose --show-error --retry 10 --output ' .plugVim. ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
     if v:shell_error 
         " 成功这个变量是0 
-        echo "自动下载失败,请重启vim重试;或手工下载插件管理脚本:https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 到 ".plugVim
+        echo "自动下载失败vim plug 管理组件失败,请重启vim重试;或手工下载插件管理脚本:https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 到 ".plugVim
         finish
     endif
 
