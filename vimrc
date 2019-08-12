@@ -60,7 +60,7 @@ set noautochdir
 set encoding=utf-8 
 "设置当前文件编码，可以更改，如：gbk（同cp936）
 "设置支持打开的文件的编码
-set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1  
+set fileencodings=ucs-bom,utf-8,utf-16,gbk,big5,gb18030,latin1
 
 
 
