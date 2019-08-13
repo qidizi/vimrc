@@ -218,28 +218,30 @@ Plug 'Valloric/YouCompleteMe'
 " 具体参考  http://vimawesome.com/plugin/youcompleteme
 
 " 加入通用语法检查插件;
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 " 配置语法检查
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" 暂关闭，比如像python2与3之类兼容不好，暂不考虑配置
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_aggregate_errors = 1
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 1
+" let g:syntastic_aggregate_errors = 1
 
 " 下面都提到<leader>,它是前置键,可以通过:help <leader>查看您的前置键,一般是\;所以下面命令<leader>abc是在普通模式下按\abc来调用后面的funciton
 " 所有的文件都是根据类型来格式化
 " 美化javascript文件
-autocmd FileType javascript noremap <buffer>  <C-b> :call JsBeautify()<cr>
+" 这些功能暂时不用，对于混合语法效果并不好
+" autocmd FileType javascript noremap <buffer>  <C-b> :call JsBeautify()<cr>
 " 格式化 json
-autocmd FileType json noremap <buffer> <C-b> :call JsonBeautify()<cr>
+" autocmd FileType json noremap <buffer> <C-b> :call JsonBeautify()<cr>
 " 格式化 html
-autocmd FileType html noremap <buffer> <C-b> :call HtmlBeautify()<cr>
+" autocmd FileType html noremap <buffer> <C-b> :call HtmlBeautify()<cr>
 " 格式化 css or scss
-autocmd FileType css noremap <buffer> <C-b> :call CSSBeautify()<cr>
+" autocmd FileType css noremap <buffer> <C-b> :call CSSBeautify()<cr>
 call plug#end()
 " 插件管理脚本结束
 finish
