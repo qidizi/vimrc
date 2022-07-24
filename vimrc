@@ -94,10 +94,12 @@ noremap <F7> :echo system('adb push ' .expand("%:p") . ' /sdcard/-/cli/' .expand
 " 临时的,给外包上传文件
 noremap <C-F8> :echo system("cd /home/qidizi/Desktop/qidizi/www/tuofu-weixin.chinacloudsites.cn/ && git commit -am 'test' && git push") <CR>
 
-
+" 现在vim 8自带包管理能力，旧插件管理方式待替换，配置到此结束
+finish
 
 " 如果没有插件管理脚本,本脚本到此结束;插件管理脚本网址:https://github.com/junegunn/vim-plug
 let plugsDir=s:qidiziVimDir . ".vimPlugs/"
+echo plugsDir
 
 if !isdirectory(plugsDir)
     " 如果插件缓存目录不存在,创建
